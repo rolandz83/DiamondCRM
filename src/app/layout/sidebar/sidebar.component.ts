@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {
     this.routerObj = this.router.events.subscribe((event) => {

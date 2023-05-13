@@ -46,8 +46,9 @@ export class SigninComponent
   }
   onSubmit() {
     this.auth.loginWithRedirect({
-      appState : { target : '/dashboard/main'}
-    });
+      appState: { target: '/dashboard' }
+  });
+
     /*
     this.submitted = true;
     this.error = '';
