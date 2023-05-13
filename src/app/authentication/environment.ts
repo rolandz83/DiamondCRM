@@ -1,4 +1,4 @@
-import  authconfig from "../../../../main/auth0_config.json"
+import authconfig from "../../../../main/auth0_config.json"
 
 export const environment = { 
   production : false,
