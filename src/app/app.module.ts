@@ -25,6 +25,8 @@ import {
 import { WINDOW_PROVIDERS } from './core/service/window.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment as env } from './authentication/environment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -47,6 +49,35 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     LoadingBarRouterModule,
     NgScrollbarModule,
+    AuthModule.forRoot({
+        // The domain and clientId were configured in the previous chapter
+        domain: 'dev-nbach3ycyxk5627q.us.auth0.com',
+        clientId: 'pahMz4r1uN8B9nVzs1bxeySTLr1EktMf',
+      
+        authorizationParams: {
+          redirect_uri: window.location.origin,
+          
+          // Request this audience at user authentication time
+          audience: 'https://dev-nbach3ycyxk5627q.us.auth0.com/api/v2/',
+      
+          // Request this scope at user authentication time
+          scope: 'read:current_user email openid name picture',
+        }
+        ,
+        httpInterceptor : {
+          allowedList : [
+            { uri: `${env.dev.apiUrl}/*`,
+              tokenOptions : {
+                authorizationParams : {
+                  audience : env.auth.authorizationParams.audience,
+                  scope : env.auth.authorizationParams.scope,
+                  redirect_uri: window.location.origin,
+                }
+              }
+            }
+          ]
+        }
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

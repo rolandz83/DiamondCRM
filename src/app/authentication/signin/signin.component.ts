@@ -6,8 +6,10 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AuthService } from 'src/app/core/service/auth.service';
+//import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
@@ -24,7 +26,8 @@ export class SigninComponent
   constructor(
     private formBuilder: UntypedFormBuilder,
     private router: Router,
-    private authService: AuthService
+//    private authService: AuthService,
+    public auth: AuthService,
   ) {
     super();
   }
@@ -42,6 +45,8 @@ export class SigninComponent
     return this.loginForm.controls;
   }
   onSubmit() {
+    this.auth.loginWithRedirect();
+    /*
     this.submitted = true;
     this.error = '';
     if (this.loginForm.invalid) {
@@ -66,6 +71,6 @@ export class SigninComponent
             this.submitted = false;
           }
         );
-    }
+    }*/
   }
 }

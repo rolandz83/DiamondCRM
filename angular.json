@@ -3,10 +3,12 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lorax": {
+    "DiamondCRM": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
+          "inlineStyle": true,
+          "skipTests": true,
           "style": "scss"
         }
       },
