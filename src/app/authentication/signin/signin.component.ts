@@ -45,7 +45,9 @@ export class SigninComponent
     return this.loginForm.controls;
   }
   onSubmit() {
-    this.auth.loginWithRedirect();
+    this.auth.loginWithRedirect({
+      appState : { target : '/dashboard/main'}
+    });
     /*
     this.submitted = true;
     this.error = '';
