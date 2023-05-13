@@ -1,4 +1,5 @@
-import { AuthService } from '../service/auth.service';
+//import { AuthService } from '../service/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { Injectable } from '@angular/core';
 import {
   HttpRequest,

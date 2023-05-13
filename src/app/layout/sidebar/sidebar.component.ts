@@ -11,7 +11,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ROUTES } from './sidebar-items';
-import { AuthService } from 'src/app/core/service/auth.service';
+//import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { RouteInfo } from './sidebar.metadata';
 
 @Component({
@@ -65,7 +66,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    if (this.authService.currentUserValue) {
+    //if (this.authService.currentUserValue) {
+    if (this.authService.user$){
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }
 

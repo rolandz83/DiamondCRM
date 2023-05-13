@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfigService } from 'src/app/config/config.service';
-import { AuthService } from 'src/app/core/service/auth.service';
+//import { AuthService } from 'src/app/core/service/auth.service';
+import { AuthService } from '@auth0/auth0-angular';
 import { RightSidebarService } from 'src/app/core/service/rightsidebar.service';
 import { WINDOW } from 'src/app/core/service/window.service';
 import { LanguageService } from 'src/app/core/service/language.service';
@@ -51,7 +52,7 @@ export class HeaderComponent
     public elementRef: ElementRef,
     private rightSidebarService: RightSidebarService,
     private configService: ConfigService,
-    private authService: AuthService,
+    private auth: AuthService,
     private router: Router,
     public languageService: LanguageService
   ) {
@@ -225,10 +226,15 @@ export class HeaderComponent
     }
   }
   logout() {
+    this.auth.logout({
+      logoutParams: { returnTo: this.document.location.origin }
+    });
+    /*
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
         this.router.navigate(['/authentication/signin']);
       }
     });
+    */
   }
 }
