@@ -25,7 +25,8 @@ import {
 import { WINDOW_PROVIDERS } from './core/service/window.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { AuthModule } from '@auth0/auth0-angular';
+import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
+
 import { environment as env } from './authentication/environment';
 
 export function createTranslateLoader(http: HttpClient) {
@@ -89,9 +90,13 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : AuthHttpInterceptor,
+      multi : true,
+    },    
+    
     fakeBackendProvider,
     WINDOW_PROVIDERS,
   ],
