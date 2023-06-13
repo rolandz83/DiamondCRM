@@ -76,6 +76,7 @@
     "@angular-eslint/template-parser": "15.2.1",
     "@angular/cli": "~15.2.2",
     "@angular/compiler-cli": "^15.2.2",
+    "@types/auth0-js": "^9.21.0",
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
     "@types/d3": "^7.4.0",
     "@types/jasmine": "~4.3.0",

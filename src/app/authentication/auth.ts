@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { WebAuth } from 'auth0-js';
 
-declare const auth0: any;
+//declare const auth0: WebAuth;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private auth0 = new auth0.WebAuth({
+  private auth0 = new WebAuth({
     domain: 'dev-nbach3ycyxk5627q.us.auth0.com',
     clientID: 'pahMz4r1uN8B9nVzs1bxeySTLr1EktMf',
     redirectUri: window.location.origin,
@@ -19,6 +20,7 @@ export class AuthService {
 
   login(): void {
     this.auth0.authorize();
+    console.log('Authorize is called.')
   }
 
   handleAuthentication(): void {
