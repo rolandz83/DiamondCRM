@@ -11,9 +11,9 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { RightSidebarComponent } from './layout/right-sidebar/right-sidebar.component';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
-import { fakeBackendProvider } from './core/interceptor/fake-backend';
-import { ErrorInterceptor } from './core/interceptor/error.interceptor';
-import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
+//import { fakeBackendProvider } from './core/interceptor/fake-backend';
+/*import { ErrorInterceptor } from './core/interceptor/error.interceptor';*/
+import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -22,15 +22,20 @@ import {
   HTTP_INTERCEPTORS,
   HttpClient,
 } from '@angular/common/http';
+import { AuthService } from './authentication/auth';
 import { WINDOW_PROVIDERS } from './core/service/window.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
+//import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { environment as env } from './authentication/environment';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
+export function tokenGetter(): string | null {
+  return localStorage.getItem('access_token');
 }
 
 @NgModule({
@@ -50,6 +55,15 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     LoadingBarRouterModule,
     NgScrollbarModule,
+    JwtModule.forRoot({
+        config: {
+          tokenGetter,
+          allowedDomains: ['api.example.com'], // Replace with your API domain(s)
+          disallowedRoutes: ['api.example.com/auth'], // Exclude authentication route(s) from token inclusion
+        }
+      }),
+
+    /*
     AuthModule.forRoot({
         // The domain and clientId were configured in the previous chapter
         domain: 'dev-nbach3ycyxk5627q.us.auth0.com',
@@ -78,7 +92,7 @@ export function createTranslateLoader(http: HttpClient) {
             }
           ]
         }
-    }),
+    }),*/
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -90,14 +104,9 @@ export function createTranslateLoader(http: HttpClient) {
     SharedModule,
   ],
   providers: [
-    
-    {
-      provide : HTTP_INTERCEPTORS,
-      useClass : AuthHttpInterceptor,
-      multi : true,
-    },    
-    
-    fakeBackendProvider,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    //fakeBackendProvider,
     WINDOW_PROVIDERS,
   ],
   bootstrap: [AppComponent],

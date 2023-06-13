@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 //import { AuthService } from 'src/app/core/service/auth.service';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthService } from '../auth';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
@@ -23,13 +23,16 @@ export class SigninComponent
   submitted = false;
   error = '';
   hide = true;
+  isAuthenticated = false;
+  
   constructor(
     private formBuilder: UntypedFormBuilder,
     private router: Router,
-//    private authService: AuthService,
+    //private authService: AuthService,
     public auth: AuthService,
   ) {
     super();
+    
   }
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -39,15 +42,18 @@ export class SigninComponent
       ],
       password: ['admin', Validators.required],
     });
+    
+    this.isAuthenticated = this.auth.isAuthenticated();
+    console.log('is auth ?', this.isAuthenticated);
+
   }
 
   get form(): { [key: string]: AbstractControl } {
     return this.loginForm.controls;
   }
   onSubmit() {
-    this.auth.loginWithRedirect({
-      appState: { target: '/dashboard' }
-  });
+    this.auth.login();
+  };
 
     /*
     this.submitted = true;
@@ -75,5 +81,5 @@ export class SigninComponent
           }
         );
     }*/
-  }
 }
+
