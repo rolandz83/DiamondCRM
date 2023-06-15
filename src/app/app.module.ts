@@ -11,28 +11,19 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { RightSidebarComponent } from './layout/right-sidebar/right-sidebar.component';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
-//import { fakeBackendProvider } from './core/interceptor/fake-backend';
-/*import { ErrorInterceptor } from './core/interceptor/error.interceptor';*/
-import { JwtInterceptor, JwtModule } from '@auth0/angular-jwt';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-  HttpClient,
-} from '@angular/common/http';
-import { AuthService } from './authentication/auth';
-import { WINDOW_PROVIDERS } from './core/service/window.service';
+
+
+// Import the interceptor module and the Angular types you'll need
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+
+
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { NgScrollbarModule } from 'ngx-scrollbar';
-//import { AuthModule, AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { AuthModule } from '@auth0/auth0-angular';
 
 import { environment as env } from './authentication/environment';
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
 
 export function tokenGetter(): string | null {
   return localStorage.getItem('access_token');
@@ -52,62 +43,23 @@ export function tokenGetter(): string | null {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    HttpClientModule,
     LoadingBarRouterModule,
     NgScrollbarModule,
-    JwtModule.forRoot({
-        config: {
-          tokenGetter,
-          allowedDomains: ['api.example.com'], // Replace with your API domain(s)
-          disallowedRoutes: ['api.example.com/auth'], // Exclude authentication route(s) from token inclusion
-        }
-      }),
-
-    /*
+   HttpClientModule,
+    
     AuthModule.forRoot({
-        // The domain and clientId were configured in the previous chapter
-        domain: 'dev-nbach3ycyxk5627q.us.auth0.com',
-        clientId: 'pahMz4r1uN8B9nVzs1bxeySTLr1EktMf',
-      
-        authorizationParams: {
-          redirect_uri: window.location.origin,
-          
-          // Request this audience at user authentication time
-          audience: 'https://dev-nbach3ycyxk5627q.us.auth0.com/api/v2/',
-      
-          // Request this scope at user authentication time
-          scope: 'read:current_user email openid name picture',
-        }
-        ,
-        httpInterceptor : {
-          allowedList : [
-            { uri: `${env.dev.apiUrl}/*`,
-              tokenOptions : {
-                authorizationParams : {
-                  audience : env.auth.authorizationParams.audience,
-                  scope : env.auth.authorizationParams.scope,
-                  redirect_uri: window.location.origin,
-                }
-              }
-            }
-          ]
-        }
-    }),*/
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
+      ...env.auth,
+      httpInterceptor: {
+        allowedList: ['/dashboard'] 
+      }
+    },
+    
+    ),
     CoreModule,
     SharedModule,
   ],
   providers: [
-    AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    //fakeBackendProvider,
-    WINDOW_PROVIDERS,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

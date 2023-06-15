@@ -11,49 +11,14 @@
                       <a routerLink="" class="logo-full"><img src="assets/images/logo-full.png" alt="logo-full"></a>
                     </div>
 
-                    <h4 class="font-20 mt-4">Welcome Back !</h4>
+                    <h4 class="font-20 mt-4">Welcome Back {{ email }} !</h4>
                     <p class="text-muted">Sign in to Diamond CRM.</p>
                     Login State : 
                     <p> {{ isAuthenticated }} </p>
                   </div>
         
                   <div class="p-2 mt-5">
-                   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <!--   <div *ngIf="error" class="alert alert-danger mb-3 mt-0">{{error}}</div>
-                      <div class="form-group auth-form-group mb-4">
-                        <mat-icon matSuffix class="auth-page-icon">email</mat-icon>
-                        <input type="email" formControlName="email" class="form-control auth-control" id="email"
-                          placeholder="Email" [ngClass]="{ 'is-invalid': submitted && form['email'].errors }">
-                        <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-                          <div *ngIf="form['email'].errors['required']">Email is required</div>
-                          <div *ngIf="form['email'].errors['email']">Email must be a valid email address</div>
-                        </div>
-                      </div>
-
-                      <div class="form-group auth-form-group mb-4">
-                        <mat-icon matSuffix class="auth-page-icon">vpn_key</mat-icon>
-                        <input type="password" formControlName="password" class="form-control auth-control"
-                          id="password" [ngClass]="{ 'is-invalid': submitted && form['password'].errors }"
-                          placeholder="Password" />
-                        <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
-                          <div *ngIf="form['password'].errors['required']">Password is required</div>
-                        </div>
-                      </div>
-        
-                      <div class="flex-sb-m w-full p-t-15 p-b-20">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" value=""> Remember me
-                            <span class="form-check-sign">
-                              <span class="check"></span>
-                            </span>
-                          </label>
-                        </div>
-                        <div>
-                          <a class="txt1" routerLink="/authentication/forgot-password">Forgot Password?</a>
-                        </div>
-                      </div>
--->
+                   <form (ngSubmit)="onSubmit()">
                       <div class="container-login100-form-btn">
                         <button mat-flat-button color="primary" class="login100-form-btn" type="submit">
                           Login

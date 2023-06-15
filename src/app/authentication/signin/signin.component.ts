@@ -1,13 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  AbstractControl,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
-//import { AuthService } from 'src/app/core/service/auth.service';
-import { AuthService } from '../auth';
+import { AuthService } from '@auth0/auth0-angular';
 import { UnsubscribeOnDestroyAdapter } from 'src/app/shared/UnsubscribeOnDestroyAdapter';
 
 @Component({
@@ -19,67 +12,44 @@ export class SigninComponent
   extends UnsubscribeOnDestroyAdapter
   implements OnInit
 {
-  loginForm!: UntypedFormGroup;
-  submitted = false;
-  error = '';
-  hide = true;
-  isAuthenticated = false;
-  
+  profileJson!: string;
+  isAuthenticated:boolean;
+  email!:string;
+
   constructor(
-    private formBuilder: UntypedFormBuilder,
     private router: Router,
-    //private authService: AuthService,
     public auth: AuthService,
   ) {
     super();
-    
+    this.isAuthenticated = false;
+    this.email = "";
   }
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: [
-        'admin@lorax.com',
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
-      password: ['admin', Validators.required],
+    this.auth.isAuthenticated$.subscribe((authenticated) => {
+      
+      this.isAuthenticated = authenticated;
+      console.log(authenticated);
+      console.log("Auth changed");
     });
-    
-    this.isAuthenticated = this.auth.isAuthenticated();
-    console.log('is auth ?', this.isAuthenticated);
-
+    this.auth.user$.subscribe(
+      (profile) => {
+        this.profileJson = JSON.stringify(profile); 
+        this.email = profile?.email || "";
+        console.log(profile);
+        console.log("Profile info changed ");      
+      }
+    );    
   }
 
-  get form(): { [key: string]: AbstractControl } {
-    return this.loginForm.controls;
-  }
   onSubmit() {
-    this.auth.login();
-  };
+    this.auth.loginWithRedirect({
+      authorizationParams: {
+        redirect_uri: 'http://localhost:4200/dashboard',
+        scope: "openid email profile"
+      }
+    });
+  }
 
-    /*
-    this.submitted = true;
-    this.error = '';
-    if (this.loginForm.invalid) {
-      this.error = 'Username and Password not valid !';
-      return;
-    } else {
-      this.subs.sink = this.authService
-        .login(this.form['email'].value, this.form['password'].value)
-        .subscribe(
-          (res) => {
-            if (res) {
-              const token = this.authService.currentUserValue.token;
-              if (token) {
-                this.router.navigate(['/dashboard/main']);
-              }
-            } else {
-              this.error = 'Invalid Login';
-            }
-          },
-          (error) => {
-            this.error = error;
-            this.submitted = false;
-          }
-        );
-    }*/
+    
 }
 

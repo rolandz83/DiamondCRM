@@ -3,5 +3,6 @@
     "clientId" : "pahMz4r1uN8B9nVzs1bxeySTLr1EktMf",
     "audience" : "https://api.diamondcrm.io", 
     "apiUrl" : "https://diamondcrmapi.azurewebsites.net",
-    "redirectUrl": "http://localhost:4200/"
+    "redirectUri": "http://localhost:4200/dashboard",
+    "scope": "openid profile email"
   }

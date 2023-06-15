@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Page404Component } from './authentication/page404/page404.component';
-//import { AuthGuard } from './core/guard/auth.guard';
 import { AuthGuard } from "@auth0/auth0-angular";
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
@@ -12,9 +11,10 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', redirectTo: '/authentication/signin', pathMatch: 'full' },
+     
       {
         path: 'dashboard',
+        
         loadChildren: () =>
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
@@ -108,6 +108,7 @@ const routes: Routes = [
             (m) => m.MultilevelModule
           ),
       },
+      { path: '', redirectTo: '/authentication/signin', pathMatch: 'full' },
     ],
   },
   {
