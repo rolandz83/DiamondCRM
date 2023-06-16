@@ -7,11 +7,13 @@ import { AuthGuard } from "@auth0/auth0-angular";
 import { AuthService } from '@auth0/auth0-angular';
 import { throwIfAlreadyLoaded } from './guard/module-import.guard';
 import { DirectionService } from './service/direction.service';
+import { TranslateService, TranslateStore } from '@ngx-translate/core';
+
 
 @NgModule({
   declarations: [],
   imports: [CommonModule],
-  providers: [RightSidebarService, AuthGuard, AuthService, DirectionService],
+  providers: [DirectionService, AuthService, AuthGuard, RightSidebarService,TranslateStore, TranslateService],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

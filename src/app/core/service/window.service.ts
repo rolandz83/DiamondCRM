@@ -7,7 +7,8 @@ import {
   PLATFORM_ID,
 } from '@angular/core';
 /* Create a new injection token for injecting the window into a component. */
-export const WINDOW = new InjectionToken('WindowToken');
+//export const WINDOW = new InjectionToken('WindowToken');
+export const WINDOW = new InjectionToken('window', { providedIn: 'root', factory: () => typeof window !== 'undefined' ? window : null });
 /* Define abstract class for obtaining reference to the global window object. */
 export abstract class WindowRef {
   get nativeWindow(): Window | Object {

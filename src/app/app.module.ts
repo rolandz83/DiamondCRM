@@ -11,8 +11,9 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { RightSidebarComponent } from './layout/right-sidebar/right-sidebar.component';
 import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout.component';
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 
-
+import { HttpClient } from '@angular/common/http';
 // Import the interceptor module and the Angular types you'll need
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
@@ -24,6 +25,11 @@ import { AuthModule } from '@auth0/auth0-angular';
 
 import { environment as env } from './authentication/environment';
 
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function httpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
+}
 
 export function tokenGetter(): string | null {
   return localStorage.getItem('access_token');
@@ -46,12 +52,15 @@ export function tokenGetter(): string | null {
     LoadingBarRouterModule,
     NgScrollbarModule,
    HttpClientModule,
-    
+   TranslateModule.forRoot({
+    loader: {
+      provide: TranslateLoader,
+      useFactory: httpLoaderFactory,
+      deps: [HttpClient]
+    }
+  }),
     AuthModule.forRoot({
-      ...env.auth,
-      httpInterceptor: {
-        allowedList: ['/dashboard'] 
-      }
+      ...env.auth
     },
     
     ),

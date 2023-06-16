@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { InConfiguration } from 'src/app/core/models/config.interface';
 import { DirectionService } from 'src/app/core/service/direction.service';
 import { ConfigService } from 'src/app/config/config.service';
-import { AuthService } from '@auth0/auth0-angular';
+
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
