@@ -28,8 +28,10 @@ export class SigninComponent
     this.auth.isAuthenticated$.subscribe((authenticated) => {
       
       this.isAuthenticated = authenticated;
+      
       console.log(authenticated);
       console.log("Auth changed");
+      this.auth.handleRedirectCallback();
     });
     this.auth.user$.subscribe(
       (profile) => {
@@ -41,8 +43,15 @@ export class SigninComponent
     );    
   }
 
-  onSubmit() {
-    this.auth.loginWithRedirect();
+  onSubmit() {    
+    
+    this.auth.loginWithRedirect({ 
+      authorizationParams: {
+          redirect_uri: window.location.origin,
+          screen_hint: 'login',
+          
+        },
+        appState: { target: '/admin/main' }});
   }
 
     
