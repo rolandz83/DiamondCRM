@@ -42,12 +42,7 @@ export class SigninComponent
   }
 
   onSubmit() {
-    this.auth.loginWithRedirect({
-      authorizationParams: {
-        redirect_uri: 'http://localhost:4200/admin/main/',
-        scope: "openid email profile"
-      }
-    });
+    this.auth.loginWithRedirect();
   }
 
     

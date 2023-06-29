@@ -3,16 +3,16 @@ import authconfig from "../../../auth0_config.json"
 export const environment = { 
   production : false,
   auth : {
-    domain: authconfig.domain,
-    clientId : authconfig.clientId,
+    domain:"dev-nbach3ycyxk5627q.us.auth0.com",
+    clientId : "pahMz4r1uN8B9nVzs1bxeySTLr1EktMf",
+    redirectUri: window.location.origin,
     authorizationParams: {
-      redirect_uri: window.location.origin,
-      audience: authconfig.audience,
-      scope: 'read:current_user',
+      audience: "https://api.diamondcrm.io",
+      //scope: 'read:current_user',
     },
   },
   dev: {
-    apiUrl : authconfig.apiUrl,
+    apiUrl : "https://diamondcrmapi.azurewebsites.net",
   },
   
 }

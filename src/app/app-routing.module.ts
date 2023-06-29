@@ -6,12 +6,19 @@ import { MainLayoutComponent } from './layout/app-layout/main-layout/main-layout
 
 const routes: Routes = [
   {
+    path: '',
+    component: AuthLayoutComponent,
+    loadChildren: () =>
+      import('./authentication/authentication.module').then(
+        (m) => m.AuthenticationModule
+      ), 
+  },
+  {
     path: 'admin',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     loadChildren: () =>
     import('./dashboard/dashboard.module').then((m) => m.DashboardModule),    
-
   },
   {
     path: 'authentication',

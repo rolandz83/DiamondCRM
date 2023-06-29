@@ -127,6 +127,7 @@ export class HeaderComponent
     // }
   }
   ngOnInit() {
+    console.log('Main header loaded!.');
     this.config = this.configService.configData;
 
     this.langStoreValue = localStorage.getItem('lang') as string;

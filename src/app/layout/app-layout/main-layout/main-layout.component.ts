@@ -16,6 +16,7 @@ export class MainLayoutComponent {
     private directoryService: DirectionService,
     private configService: ConfigService
   ) {
+    console.log('Main Layout loaded!.');
     this.config = this.configService.configData;
     this.directoryService.currentData.subscribe((currentData) => {
       if (currentData) {

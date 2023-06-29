@@ -27,6 +27,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   listMaxHeight?: string;
   listMaxWidth?: string;
   headerHeight = 60;
+  profile : any;
+
   routerObj;
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -67,6 +69,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     //if (this.authService.currentUserValue) {
+
+    this.authService.user$.subscribe(
+      (prof) => {
+        this.profile = JSON.stringify(prof, null, 2);
+        console.log(this.profile);
+      }
+    );
+
     if (this.authService.user$){
       this.sidebarItems = ROUTES.filter((sidebarItem) => sidebarItem);
     }

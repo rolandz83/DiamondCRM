@@ -2,7 +2,5 @@
     "domain" : "dev-nbach3ycyxk5627q.us.auth0.com",
     "clientId" : "pahMz4r1uN8B9nVzs1bxeySTLr1EktMf",
     "audience" : "https://api.diamondcrm.io", 
-    "apiUrl" : "https://diamondcrmapi.azurewebsites.net",
-    "redirectUri": "http://localhost:4200/dashboard",
-    "scope": "openid profile email"
+    "apiUrl" : "https://diamondcrmapi.azurewebsites.net"
   }

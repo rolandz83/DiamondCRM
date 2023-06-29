@@ -12,8 +12,7 @@
               </div>
             </div>
             <div class="profile-usertitle">
-              <div class="sidebar-userpic-name"> UN: {{ authService.user$ | async }} </div>
-              <div class="profile-usertitle-job ">{{'MENUITEMS.USER.POST' }} </div>
+              <div *ngIf="authService.user$ | async as user" class="sidebar-userpic-name" > UN: {{ user.name }} {{ user.email }} </div>
             </div>
           </li>
           <!-- Top Most level menu -->
