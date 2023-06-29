@@ -11,9 +11,12 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ROUTES } from './sidebar-items';
-//import { AuthService } from 'src/app/core/service/auth.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { RouteInfo } from './sidebar.metadata';
+
+// -- These are used for sample call, remove when done -- 
+import { HttpClient } from '@angular/common/http';
+import { map } from 'd3';
 
 @Component({
   selector: 'app-sidebar',
@@ -35,7 +38,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     public elementRef: ElementRef,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -68,12 +72,23 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    //if (this.authService.currentUserValue) {
 
     this.authService.user$.subscribe(
       (prof) => {
         this.profile = JSON.stringify(prof, null, 2);
         console.log(this.profile);
+        // EXAMPLE CALL TO BACKEND
+        console.log("Making http call to server (not protected route)")
+        this.http.get('https://diamondcrmapi.azurewebsites.net/').subscribe((data) => {
+          console.log(data);
+        })
+
+
+        console.log("Making http call to server (protected)")
+        this.http.get('https://diamondcrmapi.azurewebsites.net/customers').subscribe((data) => {
+          console.log("This is getting a list of customers from protected route for the current user:")
+          console.log(data);
+        })
       }
     );
 
